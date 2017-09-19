@@ -15,11 +15,8 @@ void loop() {
     if(now-last_checked > 1000){
         int secs = now/1000;
         
-        if(secs > 1000){
-            secs = 1000 - secs;
-        }
-        
         String Ssecs = String(secs);
+        if(Ssecs.length() > 3) Ssecs = Ssecs.substring(Ssecs.length()-4);
         int offset = 3-Ssecs.length();
         
         display.setDigit(offset+0, (int)Ssecs.substring(0, 1).toInt(), false);
