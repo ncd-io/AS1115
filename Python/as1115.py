@@ -6,7 +6,7 @@ REG_DIGIT4        = 0x05
 REG_DIGIT5        = 0x06
 REG_DIGIT6        = 0x07
 REG_DIGIT7        = 0x08
-  
+
 REG_DECODE_MODE   = 0x09
 REG_GLOBAL_INTEN  = 0x0A
 REG_SCAN_LIMIT    = 0x0B
@@ -69,24 +69,23 @@ class AS1115():
         if not hasattr(self, 'font'):
             self.font = FONT_HEX
         self.smbus = smbus
-        
+
         self.smbus.write_byte_data(self.address, REG_SHUTDOWN, self.mode | self.feature_shutdown)
         self.set_intensity(0xFF)
         self.smbus.write_byte_data(self.address, REG_FEATURE, self.font)
         self.smbus.write_byte_data(self.address, REG_SCAN_LIMIT, 0x02)
         self.smbus.write_byte_data(self.address, REG_DECODE_MODE, 0x07)
-        
+
     def test_mode(self, onoff):
         if onoff:
             self.smbus.write_byte_data(self.address, REG_DISP_TEST, 0x07)
         else:
             self.smbus.write_byte_data(self.address, REG_DISP_TEST, 0x00)
-        
+
     def set_intensity(self, intensity):
         self.smbus.write_byte_data(self.address, REG_GLOBAL_INTEN, intensity)
-        
-    def set_digit(self, digit, value, dp):
-        if dp:
+
+    def set_digit(self, digit, value, decimal_point):
+        if decimal_point:
             value = value | 0x80
         self.smbus.write_byte_data(self.address, REG_DIGIT0 + digit, value)
-        
